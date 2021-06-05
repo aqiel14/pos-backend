@@ -7,8 +7,6 @@ const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs-extra');
 const jsonwebtoken = require('jsonwebtoken');
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.post('/login', async (req, res) => {
   let doc = await Users.findOne({ username: req.body.username });
@@ -91,7 +89,7 @@ router.put('/profile', async (req, res) => {
   }
 });
 
-app.get('/profile/id/:id', async (req, res) => {
+router.get('/profile/id/:id', async (req, res) => {
   let doc = await Users.findOne({ _id: req.params.id });
   res.json(doc);
 });
