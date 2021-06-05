@@ -61,19 +61,6 @@ router.post('/profile', async (req, res) => {
   }
 });
 
-router.put('/profile', async (req, res) => {
-  try {
-    var form = new formidable.IncomingForm();
-    form.parse(req, async (err, fields, files) => {
-      let doc = await Users.findOneAndUpdate({ _id: fields.id }, fields);
-      await uploadImage(files, fields);
-      res.json({ result: 'success', message: 'Update Successfully' });
-    });
-  } catch (err) {
-    res.json({ result: 'error', message: err.errmsg });
-  }
-});
-
 uploadImage = async (files, doc) => {
   if (files.avatars != null) {
     var fileExtention = files.avatars.name.split('.').pop();
@@ -90,5 +77,23 @@ uploadImage = async (files, doc) => {
     await Users.findOneAndUpdate({ _id: doc.id }, doc);
   }
 };
+
+router.put('/profile', async (req, res) => {
+  try {
+    var form = new formidable.IncomingForm();
+    form.parse(req, async (err, fields, files) => {
+      let doc = await Users.findOneAndUpdate({ _id: fields.id }, fields);
+      await uploadImage(files, fields);
+      res.json({ result: 'success', message: 'Update Successfully' });
+    });
+  } catch (err) {
+    res.json({ result: 'error', message: err.errmsg });
+  }
+});
+
+app.get('/profile/id/:id', async (req, res) => {
+  let doc = await Users.findOne({ _id: req.params.id });
+  res.json(doc);
+});
 
 module.exports = router;
