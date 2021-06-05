@@ -7,7 +7,6 @@ const cors = require('cors');
 
 app.use(express.static(__dirname + '/uploaded'));
 require('./db');
-const Users = require('./models/user_schema');
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

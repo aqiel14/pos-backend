@@ -94,4 +94,8 @@ router.get('/profile/id/:id', async (req, res) => {
   res.json(doc);
 });
 
+router.get('/test', async (req, res) => {
+  res.send('Hello Heroku');
+});
+
 module.exports = router;
