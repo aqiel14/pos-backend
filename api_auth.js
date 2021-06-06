@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express();
 const Users = require('./models/user_schema');
 const jwt = require('./jwt');
 const bcrypt = require('bcrypt');
@@ -12,22 +12,15 @@ router.post('/login', async (req, res) => {
   let doc = await Users.findOne({ username: req.body.username });
   if (doc) {
     if (bcrypt.compareSync(req.body.password, doc.password)) {
-      if (doc.status != 'not_activated') {
-        const payload = {
-          id: doc._id,
-          level: doc.level,
-          username: doc.username,
-        };
+      const payload = {
+        id: doc._id,
+        level: doc.level,
+        username: doc.username,
+      };
 
-        let token = jwt.sign(payload);
-        console.log(token);
-        res.json({ result: 'success', token, message: 'Login successfully' });
-      } else {
-        return res.json({
-          result: 'error',
-          message: 'You need to activate your account first',
-        });
-      }
+      let token = jwt.sign(payload);
+      console.log(token);
+      res.json({ result: 'success', token, message: 'Login successfully' });
     } else {
       // Invalid password
       res.json({ result: 'error', message: 'Invalid password' });
