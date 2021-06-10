@@ -38,7 +38,7 @@ module.exports = {
     };
 
     jwt.verify(token, publicKEY, verifyOptions, function (err, decoded) {
-      console.log(JSON.stringify(decoded));
+      // console.log(JSON.stringify(decoded));
       if (err)
         return res
           .status(500)
