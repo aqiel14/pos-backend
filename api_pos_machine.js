@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const POS_Machine = require('./models/pos_machine_schema');
-const formidable = require('formidable');
 const jwt = require('./jwt');
 // new api endpoint start here
 
