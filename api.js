@@ -10,5 +10,6 @@ router.use(require('./api_pos_machine'));
 // router.use(require("./api_customer"))
 // router.use(require("./api_pos_machine"))
 router.use(require('./api_branch'));
+router.use(require('./api_supplier'));
 
 module.exports = router;
