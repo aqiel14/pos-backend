@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const POS_Machine = require('./models/pos_machine_schema');
 const jwt = require('./jwt');
+var faker = require('faker');
 // new api endpoint start here
 
 router.delete('/pos_machine/:id', async (req, res) => {
