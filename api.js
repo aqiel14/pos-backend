@@ -9,5 +9,7 @@ router.use(require('./api_product'));
 // router.use(require("./api_customer"))
 router.use(require('./api_supplier'));
 router.use(require('./api_branch'));
+router.use(require('./api_order'));
+router.use(require('./api_stat'));
 
 module.exports = router;
