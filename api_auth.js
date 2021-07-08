@@ -57,12 +57,14 @@ uploadImage = async (files, doc) => {
     var fileExtention = files.avatars.name.split('.').pop();
     doc.avatars = `${Date.now()}+${doc.username}.${fileExtention}`;
     var newpath =
-      path.resolve(__dirname + '/uploaded/images/') + '/' + doc.avatars;
+      path.resolve(__dirname + '/uploaded/images/user') + '/' + doc.avatars;
 
+    console.log(newpath);
     if (fs.exists(newpath)) {
       await fs.remove(newpath);
     }
     await fs.move(files.avatars.path, newpath);
+    console.log(files.avatars.path);
 
     // Update database
     await Users.findOneAndUpdate({ _id: doc.id }, doc);
@@ -74,7 +76,24 @@ router.put('/profile', async (req, res) => {
     var form = new formidable.IncomingForm();
     form.parse(req, async (err, fields, files) => {
       let doc = await Users.findOneAndUpdate({ _id: fields.id }, fields);
-      await uploadImage(files, fields);
+
+      if (files.avatars != null) {
+        var fileExtention = files.avatars.name.split('.').pop();
+        doc.avatars = `${Date.now()}+${doc.username}.${fileExtention}`;
+        var newpath =
+          path.resolve(__dirname + '/uploaded/images/user') + '/' + doc.avatars;
+
+        console.log(newpath);
+        if (fs.exists(newpath)) {
+          await fs.remove(newpath);
+        }
+        await fs.move(files.avatars.path, newpath);
+        console.log(files.avatars.path);
+
+        // Update database
+        await Users.findOneAndUpdate({ _id: doc.id }, doc);
+      }
+      // await uploadImage(files, fields);
       res.json({ result: 'success', message: 'Update Successfully' });
     });
   } catch (err) {

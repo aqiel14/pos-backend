@@ -7,12 +7,16 @@ const OrderSchma = mongoose.Schema(
     total: Number,
     paid: Number,
     change: Number,
-    order_list: String,
+    order_list: Array,
     payment_type: String,
     payment_detail: String,
-    staff_id: { type: mongoose.Schema.Types.ObjectId, required: true },
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
+      required: true,
+    },
     comment: String,
-    timestamp: { type: Date, default: Date.now },
+    created: { type: Date, default: Date.now },
   },
   { _id: false }
 );

@@ -17,11 +17,38 @@ router.post('/order', async (req, res) => {
 
 router.post('/order', jwt.verify, async (req, res) => {
   try {
-    req.body.staff_id = req.userId;
+    req.body.user_id = req.userId;
     let doc = await Order.create(req.body);
     res.json({ result: 'ok', message: doc });
   } catch (error) {
-    res.json({ result: 'nok', message: error });
+    res.json({ result: 'error', message: error });
+  }
+});
+
+router.get('/order', jwt.verify, async (req, res) => {
+  try {
+    let data = await Order.find({ user_id: req.userId }).sort({ created: -1 });
+    res.json({
+      result: 'success',
+      message: 'Fetch Order Successfully',
+      data: data,
+    });
+  } catch (err) {
+    res.json({ result: 'error', message: err.msg });
+  }
+});
+
+router.delete('/order/:id', async (req, res) => {
+  // console.log(req.params.id);
+  try {
+    let response = await Order.findOneAndDelete({ _id: req.params.id });
+
+    res.json({
+      result: 'success',
+      message: 'Delete Order Successfully',
+    });
+  } catch (err) {
+    res.json({ result: 'error', message: err.msg });
   }
 });
 

@@ -4,6 +4,7 @@ const schema = mongoose.Schema({
   stock: Number,
   price: Number,
   image: String,
+  user_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
   created: { type: Date, default: Date.now },
 });
 

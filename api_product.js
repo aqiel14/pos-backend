@@ -7,9 +7,11 @@ const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs-extra');
 
-router.get('/product', async (req, res) => {
+router.get('/product', jwt.verify, async (req, res) => {
   try {
-    await product.find({}).exec(function (err, data) {
+    const tes = req.userId;
+    console.log(tes);
+    await product.find({ user_id: req.userId }).exec(function (err, data) {
       if (err) {
         console.log(err);
       } else {

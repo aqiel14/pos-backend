@@ -70,7 +70,7 @@ router.post('/branch', async (req, res) => {
 
     form.parse(req, async (err, fields, files) => {
       let newBranch = await branch.create({
-        name: fields.name,
+        alias: fields.alias,
         tel: fields.tel,
         address: fields.address,
       });
@@ -115,7 +115,7 @@ router.put('/branch', async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let updateBranch = await branch.findByIdAndUpdate(
         { _id: fields.id },
-        { name: fields.name, tel: fields.tel, address: fields.address }
+        { alias: fields.alias, tel: fields.tel, address: fields.address }
       );
       let pos_arr = fields.pos_machines.split(',');
       const pos = await posmachine.find().where('_id').in(pos_arr).exec();
