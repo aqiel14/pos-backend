@@ -5,6 +5,7 @@ const schema = mongoose.Schema({
   price: Number,
   image: String,
   user_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+  bahan: [{ type: mongoose.Schema.Types.ObjectId, ref: 'bahan' }],
   created: { type: Date, default: Date.now },
 });
 

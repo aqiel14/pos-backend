@@ -11,5 +11,8 @@ router.use(require('./api_supplier'));
 router.use(require('./api_branch'));
 router.use(require('./api_order'));
 router.use(require('./api_stat'));
+router.use(require('./api_machine'));
+router.use(require('./api_listpro'));
+router.use(require('./api_bahan'));
 
 module.exports = router;
