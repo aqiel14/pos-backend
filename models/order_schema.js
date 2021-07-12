@@ -13,7 +13,6 @@ const OrderSchma = mongoose.Schema(
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',
-      required: true,
     },
     comment: String,
     created: { type: Date, default: Date.now },

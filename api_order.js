@@ -1,27 +1,53 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('./models/order_schema.js');
+const Product = require('./models/product_schema.js');
 const jwt = require('./jwt');
+const formidable = require('formidable');
+
 router.post('/order', async (req, res) => {
   try {
-    let newOrder = await Order.create(req.body);
+    let newOrder = await Order.create(req.body).then(
+      req.body.order_list.map(async (item) => {
+        let map = new Map([['_id', item._id]]);
+        let obj = Object.fromEntries(map);
+        let aid1 = await Product.findOne(obj, { _id: 1 });
+        let id1 = aid1._id;
+        let aname1 = await Product.findOne(obj, { _id: 0, name: 1 });
+        let name1 = aname1.name;
+        let astock = await Product.findOne(obj, { stock: 1, _id: 0 });
+        var stock1 = Number(astock.stock);
+        var qty1 = Number(item.qty);
+        console.log('Nama Produk yang dibeli : ' + name1);
+        console.log('ID Produk yang dibeli : ' + id1);
+        console.log('Quantitas yang dibeli : ' + qty1);
+        console.log('Stock produk tersebut : ' + stock1);
 
+        if (stock1 - qty1 >= 0) {
+          let result = stock1 - qty1;
+          console.log(result);
+
+          let updateStockProduct = await Product.findOneAndUpdate(obj, {
+            stock: result,
+            function(err, doc) {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log('stock updated' + doc.stock);
+              }
+            },
+          });
+        } else {
+          console.log('ERROR: STOCK BARANG HABIS');
+        }
+      })
+    );
     res.json({
       result: 'success',
-      message: 'Create Brach data successfully',
+      message: 'Order Submitted',
     });
   } catch (err) {
-    res.json({ result: 'error', message: err });
-  }
-});
-
-router.post('/order', jwt.verify, async (req, res) => {
-  try {
-    req.body.user_id = req.userId;
-    let doc = await Order.create(req.body);
-    res.json({ result: 'ok', message: doc });
-  } catch (error) {
-    res.json({ result: 'error', message: error });
+    res.json({ result: 'error', message: err.msg });
   }
 });
 

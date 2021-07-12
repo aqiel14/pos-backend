@@ -48,7 +48,7 @@ router.get('/product/:id', async (req, res) => {
 });
 router.get('/get_supplier', async (req, res) => {
   try {
-    let data = await posmachine
+    let data = await product
       .find({})
       .select({ alias: 1, _id: 1 })
       .sort({ created: -1 });
@@ -127,13 +127,11 @@ router.put('/product', async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let updateproduct = await product.findByIdAndUpdate(
         { _id: fields.id },
-        { name: fields.name, tel: fields.tel, address: fields.address }
+        { name: fields.name, stock: fields.stock, price: fields.price }
       );
-      let pos_arr = fields.supplier.split(',');
-      const pos = await posmachine.find().where('_id').in(pos_arr).exec();
-      updateproduct.supplier = pos;
-      await updateproduct.save();
+
       await uploadImage(files, updateproduct);
+      await updateproduct.save();
       res.json({
         result: 'success',
         message: 'Update Brach data successfully',
