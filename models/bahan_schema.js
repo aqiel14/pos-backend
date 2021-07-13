@@ -6,6 +6,10 @@ const schema = mongoose.Schema({
   materialunit: String,
   stock: Number,
   product: [{ type: mongoose.Schema.Types.ObjectId, ref: 'product',required: true }],
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users',
+  },
   created: { type: Date, default: Date.now },
 });
 

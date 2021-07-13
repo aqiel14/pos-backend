@@ -6,10 +6,10 @@ const jwt = require('./jwt');
 const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs-extra');
-router.get('/bahan', async (req, res) => {
+router.get('/bahan', jwt.verify, async (req, res) => {
   try {
     await bahan
-      .find({})
+      .find({ user_id: req.userId })
       .populate('product')
       .exec(function (err, data) {
         if (err) {
@@ -46,10 +46,10 @@ router.get('/bahan/:id', async (req, res) => {
     res.json({ result: 'error', message: err.msg });
   }
 });
-router.get('/bahan_getproduct', async (req, res) => {
+router.get('/bahan_getproduct', jwt.verify, async (req, res) => {
   try {
     let data = await products
-      .find({})
+      .find({user_id: req.userId})
       .select({ name: 1, _id: 1 })
       .sort({ created: -1 });
     res.json({
@@ -63,7 +63,7 @@ router.get('/bahan_getproduct', async (req, res) => {
   }
 });
 
-router.post('/bahan', async (req, res) => {
+router.post('/bahan', jwt.verify, async (req, res) => {
   // console.log(req)
   try {
     var form = new formidable.IncomingForm();
@@ -75,6 +75,7 @@ router.post('/bahan', async (req, res) => {
         materialneeded: fields.materialneeded,
         materialunit: fields.materialunit,
         stock: fields.stock,
+        user_id: req.userId,
       });
       let product_arr = fields.product.split(',');
       const product = await products.find().where('_id').in(product_arr).exec();

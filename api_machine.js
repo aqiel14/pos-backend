@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const machine = require('./models/machine_schema');
 const jwt = require('./jwt');
-
-router.put('/machine', async (req, res) => {
+router.put('/machine', jwt.verify, async (req, res) => {
   try {
     let doc = await machine.findByIdAndUpdate({ _id: req.body._id }, req.body);
 
@@ -32,7 +31,7 @@ router.post('/machine', async (req, res) => {
 
 router.get('/machine', jwt.verify, async (req, res) => {
   try {
-    let data = await machine.find({}).sort({ created: -1 });
+    let data = await machine.find({ user_id: req.userId }).sort({ created: -1 });
     res.json({
       result: 'success',
       message: 'Fetch Machine Information Successfully',
