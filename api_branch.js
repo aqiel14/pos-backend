@@ -6,10 +6,10 @@ const jwt = require('./jwt');
 const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs-extra');
-router.get('/branch', async (req, res) => {
+router.get('/branch', jwt.verify, async (req, res) => {
   try {
     await branch
-      .find({})
+      .find({ user_id: req.userId })
       .populate('pos_machines')
       .exec(function (err, data) {
         if (err) {
@@ -63,7 +63,7 @@ router.get('/branch_getpos', async (req, res) => {
   }
 });
 
-router.post('/branch', async (req, res) => {
+router.post('/branch', jwt.verify, async (req, res) => {
   // console.log(req)
   try {
     var form = new formidable.IncomingForm();
@@ -73,6 +73,7 @@ router.post('/branch', async (req, res) => {
         alias: fields.alias,
         tel: fields.tel,
         address: fields.address,
+        user_id: req.userId,
       });
       await uploadImage(files, newBranch);
 
