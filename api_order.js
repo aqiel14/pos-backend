@@ -78,4 +78,17 @@ router.delete('/order/:id', async (req, res) => {
   }
 });
 
+router.get('/order/:id', async (req, res) => {
+  try {
+    let data = await Order.findById({ _id: req.params.id });
+    res.json({
+      result: 'success',
+      message: 'Fetch Single Supplier data Successfully',
+      data: data,
+    });
+  } catch (err) {
+    res.json({ result: 'error', message: err.msg });
+  }
+});
+
 module.exports = router;

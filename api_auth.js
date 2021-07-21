@@ -16,6 +16,7 @@ router.post('/login', async (req, res) => {
         id: doc._id,
         level: doc.level,
         username: doc.username,
+        company_name: doc.company_name,
       };
 
       let token = jwt.sign(payload);
@@ -102,8 +103,19 @@ router.put('/profile', async (req, res) => {
 });
 
 router.get('/profile/id/:id', async (req, res) => {
-  let doc = await Users.findOne({ _id: req.params.id });
-  res.json(doc);
+  // let doc = await Users.findOne({ _id: req.params.id });
+  // res.json(doc);
+
+  try {
+    let data = await Users.findOne({ _id: req.params.id });
+    res.json({
+      result: 'success',
+      message: 'Fetch Single Supplier data Successfully',
+      data: data,
+    });
+  } catch (err) {
+    res.json({ result: 'error', message: err.msg });
+  }
 });
 
 router.get('/test', async (req, res) => {
