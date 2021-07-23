@@ -7,6 +7,7 @@ const formidable = require('formidable');
 
 router.post('/order', async (req, res) => {
   try {
+    let sumProfit = 0;
     let newOrder = await Order.create(req.body).then(
       req.body.order_list.map(async (item) => {
         let map = new Map([['_id', item._id]]);
@@ -16,12 +17,15 @@ router.post('/order', async (req, res) => {
         let aname1 = await Product.findOne(obj, { _id: 0, name: 1 });
         let name1 = aname1.name;
         let astock = await Product.findOne(obj, { stock: 1, _id: 0 });
+        var profit = Number(item.profit * item.qty);
+        sumProfit += profit;
         var stock1 = Number(astock.stock);
         var qty1 = Number(item.qty);
         console.log('Nama Produk yang dibeli : ' + name1);
         console.log('ID Produk yang dibeli : ' + id1);
         console.log('Quantitas yang dibeli : ' + qty1);
         console.log('Stock produk tersebut : ' + stock1);
+        console.log('PROFIT BARANG TSB : ' + profit);
 
         if (stock1 - qty1 >= 0) {
           let result = stock1 - qty1;
@@ -42,6 +46,10 @@ router.post('/order', async (req, res) => {
         }
       })
     );
+
+    console.log('TOTAL PROFIT ORDER : ' + sumProfit);
+    newOrder.order_profit = sumProfit;
+    await newOrder.save();
     res.json({
       result: 'success',
       message: 'Order Submitted',

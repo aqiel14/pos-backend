@@ -74,6 +74,14 @@ router.post('/product', async (req, res) => {
 
     form.parse(req, async (err, fields, files) => {
       let newproduct = await product.create(fields);
+      if (fields.hpp) {
+        let profit = Number(fields.price) - Number(fields.hpp);
+        console.log(profit);
+        newproduct.profit = profit;
+        await newproduct.save();
+      } else {
+        console.log('Tidak ada profit di barnag ini');
+      }
       console.log(files.image);
       if (files.image != null) {
         var fileExtention = files.image.name.split('.').pop();

@@ -10,6 +10,7 @@ const OrderSchma = mongoose.Schema(
     order_list: Array,
     payment_type: String,
     payment_detail: String,
+    order_profit: { type: Number, default: 0 },
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',
