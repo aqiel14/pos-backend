@@ -5,6 +5,7 @@ const schema = mongoose.Schema({
   quantity: Number,
   order: String,
   duedate: Date,
+  cost: Number,
   description: String,
   product: [{ type: mongoose.Schema.Types.ObjectId, ref: 'product',required: true }],
   user_id: {

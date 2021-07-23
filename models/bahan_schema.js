@@ -3,9 +3,11 @@ const schema = mongoose.Schema({
   materialname: String,
   amount: Number,
   materialneeded: Number,
+  prounit: String,
   materialunit: String,
   stock: Number,
   product: [{ type: mongoose.Schema.Types.ObjectId, ref: 'product',required: true }],
+  
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',

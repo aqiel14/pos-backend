@@ -76,6 +76,7 @@ router.post('/listpro', jwt.verify, async (req, res) => {
         order: fields.order,
         duedate: fields.duedate,
         description: fields.description,
+        cost: fields.cost,
         user_id: req.userId
       });
       
@@ -100,7 +101,7 @@ router.put('/listpro', async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let updateListpro = await listpro.findByIdAndUpdate(
         { _id: fields.id },
-        { name: fields.name, quantity: fields.quantity, order: fields.order, duedate: fields.duedate, description: fields.description, }
+        { name: fields.name, quantity: fields.quantity, order: fields.order, duedate: fields.duedate, description: fields.description, cost: fields.cost }
       );
       let product_arr = fields.product.split(',');
       const product = await products.find().where('_id').in(product_arr).exec();

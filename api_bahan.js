@@ -74,6 +74,7 @@ router.post('/bahan', jwt.verify, async (req, res) => {
         amount: fields.amount,
         materialneeded: fields.materialneeded,
         materialunit: fields.materialunit,
+        prounit: fields.prounit,
         stock: fields.stock,
         user_id: req.userId,
       });
@@ -98,7 +99,7 @@ router.put('/bahan', async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let updateBahan = await bahan.findByIdAndUpdate(
         { _id: fields.id },
-        { materialname: fields.materialname, amount: fields.amount, materialneeded: fields.materialneeded, materialunit: fields.materialunit, stock: fields.stock, }
+        { materialname: fields.materialname, amount: fields.amount, materialneeded: fields.materialneeded, materialunit: fields.materialunit, prounit: fields.prounit, stock: fields.stock, }
       );
       let product_arr = fields.product.split(',');
       const product = await products.find().where('_id').in(product_arr).exec();

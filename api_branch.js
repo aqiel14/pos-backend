@@ -109,7 +109,7 @@ uploadImage = async (files, doc) => {
     await branch.findOneAndUpdate({ _id: doc.id }, doc);
   }
 };
-router.put('/branch', async (req, res) => {
+router.put('/branch',jwt.verify, async (req, res) => {
   try {
     var form = new formidable.IncomingForm();
 
