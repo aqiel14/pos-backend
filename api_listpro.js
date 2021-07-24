@@ -77,14 +77,37 @@ router.post('/listpro', jwt.verify, async (req, res) => {
         duedate: fields.duedate,
         description: fields.description,
         cost: fields.cost,
+        status: fields.status,
         user_id: req.userId
       });
+      if (newListpro.status == 'done') {
+        let qty = newListpro.quantity;
+        let product_arr = fields.product.split(',');
+        const product = await products.find().where('_id').in(product_arr).exec();
+        console.log(product[0]._id)
+        let map = new Map([['_id', product[0]._id]]);
+        let obj = Object.fromEntries(map);
+        let astock = await products.findOne(obj, { stock: 1, _id: 0 });
+        var stock1 = Number(astock.stock);
+         let updateStockProduct = await products.findOneAndUpdate(obj, {
+           stock: stock1+=qty,
+           function(err, doc) {
+             if (err) {
+               console.log(err);
+             } else {
+               console.log('stock updated' + doc.stock);
+             }
+           },
+         });
+       } else {
+         console.log('ERROR: STOCK BARANG HABIS');
+       }
       
       let product_arr = fields.product.split(',');
       const product = await products.find().where('_id').in(product_arr).exec();
       console.log(newListpro);
       newListpro.product = product;
-      await newListpro.save();
+      await newListpro.save()
       res.json({
         result: 'success',
         message: 'Create Production Successfully',
@@ -101,8 +124,32 @@ router.put('/listpro', async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let updateListpro = await listpro.findByIdAndUpdate(
         { _id: fields.id },
-        { name: fields.name, quantity: fields.quantity, order: fields.order, duedate: fields.duedate, description: fields.description, cost: fields.cost }
+        { name: fields.name, quantity: fields.quantity, order: fields.order, duedate: fields.duedate, description: fields.description, cost: fields.cost, status: fields.status }
       );
+      var a = fields.status;
+      console.log (a);
+      if (fields.status == 'done') {
+        let qty = updateListpro.quantity;
+        let product_arr = fields.product.split(',');
+        const product = await products.find().where('_id').in(product_arr).exec();
+        // console.log(product[0]._id)
+        let map = new Map([['_id', product[0]._id]]);
+        let obj = Object.fromEntries(map);
+        let astock = await products.findOne(obj, { stock: 1, _id: 0 });
+        var stock1 = Number(astock.stock);
+         let updateStockProduct = await products.findOneAndUpdate(obj, {
+           stock: stock1+=qty,
+           function(err, doc) {
+             if (err) {
+               console.log(err);
+             } else {
+               console.log('stock updated' + doc.stock);
+             }
+           },
+         });
+       } else {
+         console.log('ERROR: STOCK BARANG HABIS');
+       }
       let product_arr = fields.product.split(',');
       const product = await products.find().where('_id').in(product_arr).exec();
       updateListpro.product = product;

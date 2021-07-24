@@ -7,6 +7,7 @@ const schema = mongoose.Schema({
   duedate: Date,
   cost: Number,
   description: String,
+  status: String,
   product: [{ type: mongoose.Schema.Types.ObjectId, ref: 'product',required: true }],
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
