@@ -1,12 +1,15 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const schema = mongoose.Schema({
-  materialname: String,
+  tanggal: Date,
   price: Number,
   qty: Number,
   unit: String,
   total: Number,
-  user_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+  bahan: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "bahan", required: true },
+  ],
+  user_id: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
   created: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('material', schema);
+module.exports = mongoose.model("material", schema);
