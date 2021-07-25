@@ -75,7 +75,6 @@ router.post('/bahan', jwt.verify, async (req, res) => {
         materialneeded: fields.materialneeded,
         materialunit: fields.materialunit,
         prounit: fields.prounit,
-        stock: fields.stock,
         user_id: req.userId,
       });
       let product_arr = fields.product.split(',');

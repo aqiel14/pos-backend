@@ -7,6 +7,10 @@ const schema = mongoose.Schema({
   description: String,
   status: String,
   created: { type: Date, default: Date.now },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users',
+  },
 });
 
 module.exports = mongoose.model('machine', schema);

@@ -16,10 +16,11 @@ router.put('/machine', async (req, res) => {
   }
 });
 
-router.post('/machine', async (req, res) => {
+router.post('/machine', jwt.verify, async (req, res) => {
   try {
     let doc = await machine.create(req.body);
-
+    doc.user_id = req.userId;
+    doc.save();
     res.json({
       result: 'success',
       message: 'Create Machine Information data Successfully',
@@ -32,7 +33,7 @@ router.post('/machine', async (req, res) => {
 
 router.get('/machine', jwt.verify, async (req, res) => {
   try {
-    let data = await machine.find({}).sort({ created: -1 });
+    let data = await machine.find({user_id: req.userId }).sort({ created: -1 });
     res.json({
       result: 'success',
       message: 'Fetch Machine Information data Successfully',
@@ -43,7 +44,7 @@ router.get('/machine', jwt.verify, async (req, res) => {
   }
 });
 
-router.get('/machine/:id', async (req, res) => {
+router.get('/machine/:id', jwt.verify, async (req, res) => {
   try {
     let data = await machine.findById({ _id: req.params.id });
     res.json({
