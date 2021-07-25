@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema({
+  tanggal: Date,
   price: Number,
   qty: Number,
   unit: String,
