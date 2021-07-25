@@ -49,7 +49,7 @@ router.get('/bahan/:id', async (req, res) => {
 router.get('/bahan_getproduct', jwt.verify, async (req, res) => {
   try {
     let data = await products
-      .find({user_id: req.userId})
+      .find({ user_id: req.userId })
       .select({ name: 1, _id: 1 })
       .sort({ created: -1 });
     res.json({
@@ -99,7 +99,13 @@ router.put('/bahan', async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let updateBahan = await bahan.findByIdAndUpdate(
         { _id: fields.id },
-        { materialname: fields.materialname, amount: fields.amount, materialneeded: fields.materialneeded, materialunit: fields.materialunit, prounit: fields.prounit, stock: fields.stock, }
+        {
+          materialname: fields.materialname,
+          amount: fields.amount,
+          materialneeded: fields.materialneeded,
+          materialunit: fields.materialunit,
+          prounit: fields.prounit,
+        }
       );
       let product_arr = fields.product.split(',');
       const product = await products.find().where('_id').in(product_arr).exec();

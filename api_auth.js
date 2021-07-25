@@ -77,7 +77,7 @@ router.put('/profile', async (req, res) => {
     var form = new formidable.IncomingForm();
     form.parse(req, async (err, fields, files) => {
       let doc = await Users.findOneAndUpdate({ _id: fields.id }, fields);
-
+      console.log(files.avatars);
       if (files.avatars != null) {
         var fileExtention = files.avatars.name.split('.').pop();
         doc.avatars = `${Date.now()}+${doc.username}.${fileExtention}`;
@@ -105,7 +105,6 @@ router.put('/profile', async (req, res) => {
 router.get('/profile/id/:id', async (req, res) => {
   // let doc = await Users.findOne({ _id: req.params.id });
   // res.json(doc);
-
   try {
     let data = await Users.findOne({ _id: req.params.id });
     res.json({
