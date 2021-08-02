@@ -3,10 +3,28 @@ const router = express.Router();
 const Order = require('./models/order_schema.js');
 const Product = require('./models/product_schema.js');
 const jwt = require('./jwt');
+var faker = require('faker');
 const formidable = require('formidable');
 
 router.post('/order', async (req, res) => {
   try {
+    // let pos = [];
+    // for (let i = 0; i < 100; i += 1) {
+    //   let created = faker.date.between('2021-01-01', '2021-07-28');
+    //   let order_profit = faker.datatype.number({ min: 10000, max: 20000 });
+    //   let user_id = '60b4e146da112713586fea1e';
+
+    //   let newPos = {
+    //     created,
+    //     order_profit,
+    //     user_id,
+    //   };
+    //   pos.push(newPos);
+
+    //   // visual feedback always feels nice!
+    //   console.log(newPos);
+    // }
+    // let doc = await Order.create(pos);
     let sumProfit = 0;
     let newOrder = await Order.create(req.body).then(
       req.body.order_list.map(async (item) => {
@@ -26,11 +44,9 @@ router.post('/order', async (req, res) => {
         console.log('Quantitas yang dibeli : ' + qty1);
         console.log('Stock produk tersebut : ' + stock1);
         console.log('PROFIT BARANG TSB : ' + profit);
-
         if (stock1 - qty1 >= 0) {
           let result = stock1 - qty1;
           console.log(result);
-
           let updateStockProduct = await Product.findOneAndUpdate(obj, {
             stock: result,
             function(err, doc) {
@@ -46,7 +62,6 @@ router.post('/order', async (req, res) => {
         }
       })
     );
-
     console.log('TOTAL PROFIT ORDER : ' + sumProfit);
     newOrder.order_profit = sumProfit;
     await newOrder.save();
