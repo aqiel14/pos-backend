@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const schema = mongoose.Schema({
   name: String,
   address: String,
@@ -8,4 +8,4 @@ const schema = mongoose.Schema({
   created: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('supplier', schema);
+module.exports = mongoose.model("supplier", schema);

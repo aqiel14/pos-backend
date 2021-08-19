@@ -70,6 +70,7 @@ router.post("/material", jwt.verify, async (req, res) => {
 
     form.parse(req, async (err, fields, files) => {
       let newMaterial = await material.create({
+        suppliername: fields.suppliername,
         tanggal: fields.tanggal,
         price: fields.price,
         qty: fields.qty,
@@ -98,6 +99,7 @@ router.put("/material", async (req, res) => {
       let updateMaterial = await material.findByIdAndUpdate(
         { _id: fields.id },
         {
+          suppliername: fields.suppliername,
           tanggal: fields.tanggal,
           price: fields.price,
           qty: fields.qty,
