@@ -24,7 +24,7 @@ router.get('/coststat/current_inventory', jwt.verify, async (req, res) => {
 
 router.get('/coststat/current_listpro', jwt.verify, async (req, res) => {
   try {
-    let data = await Listpro.find({ user_id: req.userId }).sort({ created: -1 });
+    let data = await Listpro.find({ user_id: req.userId }).populate('product').sort({ created: -1 });
     res.json({
       result: 'success',
       message: 'Fetch Listpro Successfully',

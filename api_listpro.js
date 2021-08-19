@@ -124,7 +124,7 @@ router.put('/listpro', async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let updateListpro = await listpro.findByIdAndUpdate(
         { _id: fields.id },
-        { name: fields.name, quantity: fields.quantity, order: fields.order, duedate: fields.duedate, description: fields.description, cost: fields.cost, status: fields.status }
+        { name: fields.name, tanggal: fields.tanggal, quantity: fields.quantity, order: fields.order, duedate: fields.duedate, description: fields.description, cost: fields.cost, status: fields.status }
       );
       var a = fields.status;
       console.log (a);
