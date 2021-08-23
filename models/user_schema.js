@@ -9,7 +9,7 @@ const schema = mongoose.Schema({
   phone: { type: String, default: '' },
   address: { type: String, default: '' },
   password: String,
-  level: { type: String, default: 'staff' },
+  level: { type: String, default: 'admin' },
   created: { type: Date, default: Date.now },
 });
 
