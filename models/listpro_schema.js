@@ -8,7 +8,7 @@ const schema = mongoose.Schema({
   cost: Number,
   description: String,
   status: String,
-  product: [{ type: mongoose.Schema.Types.ObjectId, ref: 'product',required: true }],
+  product: [{ type: mongoose.Schema.Types.ObjectId, ref: 'product'}],
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
