@@ -7,7 +7,7 @@ const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs-extra');
 
-router.get('/product', jwt.verify, async (req, res) => {
+router.get('/product', async (req, res) => {
   try {
     const tes = req.userId;
     console.log(tes);
