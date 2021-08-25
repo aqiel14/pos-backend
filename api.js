@@ -17,4 +17,15 @@ router.use(require('./api_machine'));
 router.use(require('./api_listpro'));
 router.use(require('./api_bahan'));
 
+router.get('/loaderio-b059aa86ce02ddc3c8d00f4576b6c467', async (req, res) => {
+  try {
+    res.json({
+      message: 'Fetch Supplier data Successfully',
+      data: 'loaderio-b059aa86ce02ddc3c8d00f4576b6c467',
+    });
+  } catch (err) {
+    res.json({ result: 'error', message: err.msg });
+  }
+});
+
 module.exports = router;
