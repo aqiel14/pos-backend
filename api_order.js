@@ -74,7 +74,7 @@ router.post('/order', async (req, res) => {
   }
 });
 
-router.get('/order', jwt.verify, async (req, res) => {
+router.get('/order', async (req, res) => {
   try {
     let data = await Order.find({ user_id: req.userId }).sort({ created: -1 });
     res.json({
