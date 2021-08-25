@@ -6,7 +6,7 @@ const jwt = require("./jwt");
 const formidable = require("formidable");
 const path = require("path");
 const fs = require("fs-extra");
-router.get("/bahan", jwt.verify, async (req, res) => {
+router.get("/bahan", async (req, res) => {
   try {
     await bahan
       .find({ user_id: req.userId })
@@ -46,7 +46,7 @@ router.get("/bahan/:id", async (req, res) => {
     res.json({ result: "error", message: err.msg });
   }
 });
-router.get("/bahan_getproduct", jwt.verify, async (req, res) => {
+router.get("/bahan_getproduct", async (req, res) => {
   try {
     let data = await products
       .find({ user_id: req.userId })
@@ -63,7 +63,7 @@ router.get("/bahan_getproduct", jwt.verify, async (req, res) => {
   }
 });
 
-router.post("/bahan", jwt.verify, async (req, res) => {
+router.post("/bahan", async (req, res) => {
   // console.log(req)
   try {
     var form = new formidable.IncomingForm();

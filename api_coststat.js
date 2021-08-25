@@ -4,7 +4,7 @@ const product = require('./models/product_schema');
 const jwt = require('./jwt');
 const Order = require('./models/order_schema.js');
 const Listpro = require('./models/listpro_schema.js');
-router.get('/coststat/current_inventory', jwt.verify, async (req, res) => {
+router.get('/coststat/current_inventory', async (req, res) => {
   try {
     await product.find({ user_id: req.userId }).exec(function (err, data) {
       if (err) {
@@ -22,7 +22,7 @@ router.get('/coststat/current_inventory', jwt.verify, async (req, res) => {
   }
 });
 
-router.get('/coststat/current_listpro', jwt.verify, async (req, res) => {
+router.get('/coststat/current_listpro',  async (req, res) => {
   try {
     let data = await Listpro.find({ user_id: req.userId }).populate('product').sort({ created: -1 });
     res.json({

@@ -16,7 +16,7 @@ router.put('/machine', async (req, res) => {
   }
 });
 
-router.post('/machine', jwt.verify, async (req, res) => {
+router.post('/machine', async (req, res) => {
   try {
     let doc = await machine.create(req.body);
     doc.user_id = req.userId;
@@ -31,7 +31,7 @@ router.post('/machine', jwt.verify, async (req, res) => {
   }
 });
 
-router.get('/machine', jwt.verify, async (req, res) => {
+router.get('/machine', async (req, res) => {
   try {
     let data = await machine.find({user_id: req.userId }).sort({ created: -1 });
     res.json({
@@ -44,7 +44,7 @@ router.get('/machine', jwt.verify, async (req, res) => {
   }
 });
 
-router.get('/machine/:id', jwt.verify, async (req, res) => {
+router.get('/machine/:id',async (req, res) => {
   try {
     let data = await machine.findById({ _id: req.params.id });
     res.json({

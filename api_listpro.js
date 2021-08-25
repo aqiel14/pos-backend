@@ -6,7 +6,7 @@ const jwt = require('./jwt');
 const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs-extra');
-router.get('/listpro', jwt.verify, async (req, res) => {
+router.get('/listpro', async (req, res) => {
   try {
     await listpro
       .find({ user_id: req.userId })
@@ -46,7 +46,7 @@ router.get('/listpro/:id', async (req, res) => {
     res.json({ result: 'error', message: err.msg });
   }
 });
-router.get('/listpro_getproduct', jwt.verify, async (req, res) => {
+router.get('/listpro_getproduct', async (req, res) => {
   try {
     let data = await products
       .find({ user_id: req.userId })
@@ -63,7 +63,7 @@ router.get('/listpro_getproduct', jwt.verify, async (req, res) => {
   }
 });
 
-router.post('/listpro', jwt.verify, async (req, res) => {
+router.post('/listpro', async (req, res) => {
   // console.log(req)
   try {
     var form = new formidable.IncomingForm();
