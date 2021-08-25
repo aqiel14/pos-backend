@@ -22,7 +22,7 @@ router.get('/stat/current_inventory', jwt.verify, async (req, res) => {
   }
 });
 
-router.get('/stat/current_order', jwt.verify, async (req, res) => {
+router.get('/stat/current_order', async (req, res) => {
   try {
     let data = await Order.find({ user_id: req.userId }).sort({ created: -1 });
     res.json({
