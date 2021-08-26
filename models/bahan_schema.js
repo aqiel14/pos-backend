@@ -6,7 +6,7 @@ const schema = mongoose.Schema({
   prounit: String,
   materialunit: String,
   product: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "product", required: true },
+    { type: mongoose.Schema.Types.ObjectId, ref: "product"},
   ],
 
   user_id: {
