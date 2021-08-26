@@ -6,7 +6,7 @@ const jwt = require("./jwt");
 const formidable = require("formidable");
 const path = require("path");
 const fs = require("fs-extra");
-router.get("/material", jwt.verify, async (req, res) => {
+router.get("/material", async (req, res) => {
   try {
     await material
       .find({ user_id: req.userId })
@@ -46,7 +46,7 @@ router.get("/material/:id", async (req, res) => {
     res.json({ result: "error", message: err.msg });
   }
 });
-router.get("/material_getbahan", jwt.verify, async (req, res) => {
+router.get("/material_getbahan", async (req, res) => {
   try {
     let data = await bahans
       .find({ user_id: req.userId })
@@ -63,7 +63,7 @@ router.get("/material_getbahan", jwt.verify, async (req, res) => {
   }
 });
 
-router.post("/material", jwt.verify, async (req, res) => {
+router.post("/material", async (req, res) => {
   // console.log(req)
   try {
     var form = new formidable.IncomingForm();
